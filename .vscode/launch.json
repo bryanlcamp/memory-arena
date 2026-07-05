@@ -1,0 +1,14 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug Current C++23 Driver File",
+            "type": "lldb",
+            "request": "launch",
+            "program": "${workspaceFolder}/src/build_driver",
+            "args": [],
+            "cwd": "${workspaceFolder}",
+            "preLaunchTask": "C/C++: g++-15 build active file"
+        }
+    ]
+}

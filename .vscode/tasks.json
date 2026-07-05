@@ -1,0 +1,31 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "type": "shell",
+            "label": "C/C++: g++-15 build active file",
+            "command": "/opt/homebrew/bin/g++-15",
+            "args": [
+                "-fdiagnostics-color=always",
+                "-std=c++23",
+                "-g",
+                "-isysroot",
+                "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk",
+                "${workspaceFolder}/src/main.cpp",
+                "-o",
+                "${workspaceFolder}/src/build_driver"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "detail": "Compiler task generated for modern GCC 15 execution."
+        }
+    ]
+}

@@ -1,0 +1,20 @@
+{
+    "configurations": [
+        {
+            "name": "macOS-GCC15",
+            "includePath": [
+                "${workspaceFolder}/**"
+            ],
+            "defines": [],
+            "macFrameworkPath": [
+                "/Library/Frameworks",
+                "/System/Library/Frameworks"
+            ],
+            "compilerPath": "/opt/homebrew/bin/g++-15",
+            "cStandard": "c17",
+            "cppStandard": "c++23",
+            "intelliSenseMode": "macos-gcc-arm64"
+        }
+    ],
+    "version": 4
+}
