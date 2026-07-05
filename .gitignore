@@ -1,0 +1,31 @@
+# OS specific files
+.DS_Store
+Thumbs.db
+
+# VS Code directory and workspace configurations
+.vscode/
+.history/
+*.code-workspace
+
+# Build system outputs and artifact targets
+build/
+bin/
+out/
+
+# Compiled binaries and translation objects
+*.o
+*.obj
+*.out
+*.exe
+*.a
+*.lib
+*.so
+*.dylib
+
+# Specific local driver binary outputs
+src/build_driver
+build_driver
+
+# Backup and swap files
+*.swp
+*~
