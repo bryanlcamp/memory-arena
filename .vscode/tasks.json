@@ -1,31 +1,70 @@
 {
-    "version": "2.0.0",
-    "tasks": [
-        {
-            "type": "shell",
-            "label": "C/C++: g++-15 build active file",
-            "command": "/opt/homebrew/bin/g++-15",
-            "args": [
-                "-fdiagnostics-color=always",
-                "-std=c++23",
-                "-g",
-                "-isysroot",
-                "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk",
-                "${workspaceFolder}/src/main.cpp",
-                "-o",
-                "${workspaceFolder}/src/build_driver"
-            ],
-            "options": {
-                "cwd": "${workspaceFolder}"
-            },
-            "problemMatcher": [
-                "$gcc"
-            ],
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            },
-            "detail": "Compiler task generated for modern GCC 15 execution."
-        }
-    ]
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "type": "shell",
+      "label": "HFT Pipeline: Compile Target Matrix",
+      "command": "./build.sh",
+      "args": [],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": [
+        "$gcc"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "detail": "Triggers the full, optimized C++23 CMake multi-app build matrix."
+    },
+    {
+      "type": "shell",
+      "label": "HFT Pipeline: Run Micro-Benchmark",
+      "command": "./build/bin/build_driver",
+      "args": [],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "dependsOn": "HFT Pipeline: Compile Target Matrix",
+      "problemMatcher": [],
+      "detail": "Executes the nanosecond allocator benchmark driver."
+    },
+    {
+      "type": "shell",
+      "label": "HFT Pipeline: Run Baseline Overhead Floor",
+      "command": "./build/bin/baseline_no_work",
+      "args": [],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "dependsOn": "HFT Pipeline: Compile Target Matrix",
+      "problemMatcher": [],
+      "detail": "Runs the pure overhead baseline simulation."
+    },
+    {
+      "type": "shell",
+      "label": "HFT Pipeline: Run CME SBE Decoder Demo",
+      "command": "./build/bin/cme_sbe_demo",
+      "args": [],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "dependsOn": "HFT Pipeline: Compile Target Matrix",
+      "problemMatcher": [],
+      "detail": "Runs the true multi-threaded CME SBE decoder sandbox."
+    },
+    {
+      "type": "shell",
+      "label": "HFT Pipeline: Execute GoogleTest Suite",
+      "command": "./build/bin/memory_arena_tests",
+      "args": [],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "dependsOn": "HFT Pipeline: Compile Target Matrix",
+      "problemMatcher": [],
+      "detail": "Executes all boundary and alignment validation test tracks."
+    }
+  ]
 }
