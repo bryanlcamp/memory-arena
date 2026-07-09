@@ -19,7 +19,7 @@ target_include_directories(memory_arena INTERFACE
 )
 
 # Global compiler configuration block optimized for ultra-low latency execution
-if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR CMAKE_CXX_COMPILER_ID STREQUAL "Clang" OR CMAKE_CXX_COMPILER_ID STREQUAL "AppleClang") {
+if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR CMAKE_CXX_COMPILER_ID STREQUAL "Clang" OR CMAKE_CXX_COMPILER_ID STREQUAL "AppleClang")
   set(GLOBAL_HFT_FLAGS
     -Wall
     -Wextra
@@ -32,21 +32,19 @@ if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR CMAKE_CXX_COMPILER_ID STREQUAL "Clang
   )
 
   # Check host system processor architecture to apply proper vector extensions
-  if(CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "arm64" OR CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "aarch64") {
-    if(CMAKE_CXX_COMPILER_ID STREQUAL "AppleClang" OR CMAKE_CXX_COMPILER_ID STREQUAL "Clang") {
+  if(CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "arm64" OR CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "aarch64")
+    if(CMAKE_CXX_COMPILER_ID STREQUAL "AppleClang" OR CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
       list(APPEND GLOBAL_HFT_FLAGS "-mcpu=native")
-    }
-    else {
+    else()
       list(APPEND GLOBAL_HFT_FLAGS "-march=native")
-    }
-  }
-  else {
+    endif()
+  else()
     list(APPEND GLOBAL_HFT_FLAGS "-march=native")
-  }
-}
+  endif()
+endif()
 
 # Windows MSVC Specific Performance Configurations
-if(MSVC) {
+if(MSVC)
   set(GLOBAL_HFT_FLAGS
     /W4
     /O2               # Maximize speed on Windows environments
@@ -55,7 +53,7 @@ if(MSVC) {
     /EHs-c-           # Completely disable exception handling code gen
     /GR-              # Disable runtime type information lookup structures
   )
-}
+endif()
 
 # Target 1: Micro-Benchmark Driver Suite
 add_executable(build_driver src/main.cpp)
@@ -74,3 +72,6 @@ add_executable(baseline_no_work src/BaselineNoWorkMain.cpp)
 target_link_libraries(baseline_no_work PRIVATE memory_arena Threads::Threads)
 target_compile_options(baseline_no_work PRIVATE ${GLOBAL_HFT_FLAGS})
 set_target_properties(baseline_no_work PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
+
+# Add testing directory containing GoogleTest sub-build steps
+add_subdirectory(tests)

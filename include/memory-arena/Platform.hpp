@@ -46,14 +46,14 @@ inline constexpr std::size_t getCacheLineSize() noexcept {
   return 128; // Apple Silicon M-series uses 128-byte cache lines
 #  else
   return 64;  
-#endif
+#  endif
 #endif
 }
 
 /**
  * @brief Allocation backend for Linux environments using pre-faulted pages.
  */
-inline void* allocateLinux(std::size_t size) noexcept {
+inline void* allocateLinux([[maybe_unused]] std::size_t size) noexcept {
 #if defined(__linux__)
   void* ptr = ::mmap(nullptr, size, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS | MAP_POPULATE, -1, 0);
   if (ptr == MAP_FAILED) {
@@ -89,7 +89,7 @@ inline void* allocateMac(std::size_t size) noexcept {
 /**
  * @brief Allocation backend for Windows environments using direct commit.
  */
-inline void* allocateWindows(std::size_t size) noexcept {
+inline void* allocateWindows([[maybe_unused]] std::size_t size) noexcept {
 #if defined(_WIN32) || defined(_WIN64)
   return ::VirtualAlloc(nullptr, size, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
 #else
